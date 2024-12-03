@@ -1,22 +1,107 @@
-html {
-  font-size: 14px;
+:root {
+    --bg-color: #FAFBFD;
+    --primary-color: #FFFFFF;
+    --border-color: #D0D9E7;
 }
 
-@media (min-width: 768px) {
-  html {
+html {
     font-size: 16px;
-  }
+    font-family: Roboto, Arial, sans-serif;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    height: 100%;
+    display: flex;
+    background-color: var(--bg-color);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+}
+
+li {
+    list-style: none;
+}
+/*SIDEBAR*/
+#sidebar {
+    border-right: solid 1px var(--border-color);
+    min-width: 280px;
+    width: 280px;
+    background-color: var(--bg-color);
+    transition: transform 0.5s ease;
+}
+
+    #sidebar.sidebar-close {
+        transform: translateX(-100%);
+    }
+
+    #sidebar .sidebar-open {
+        transform: translateX(0);
+    }
+    #sidebar ul{
+        padding:0;
+    }
+    #sidebar ul li{
+        margin:4px 0;
+    }
+    #sidebar ul li a {
+        height:40px;
+        display: flex;
+        align-items:center;
+        width: 100%;
+    }
+    #sidebar ul li a i{
+        font-size: 1.2rem;
+        margin-left: 10px;
+        width:35px;
+    }
+
+#sidebar-toggle {
+    z-index: 11;
+}
+
+.sidebar-top {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    margin: 10px 32px 10px 32px;
+}
+
+    .sidebar-top .logo {
+        display: flex;
+        align-items: center;
+        margin-right: 5px;
+    }
+
+    .sidebar-top .application-name {
+        display: flex;
+        text-align: center;
+    }
+/*CONTENT*/
+#content {
+    flex-grow: 1;
+}
+/*TOPBAR*/
+#top-bar{
+    height: 80px;
+    padding: 0 32px;
+}
+.breadcumbs{
+}
+.breadcumbs-route{
+    margin-bottom: 3px;
 }
