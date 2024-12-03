@@ -63,7 +63,7 @@
     </header>
     <div id="content">
         <div id="top-bar">
-            <nav class="navbar navbar-expand-lg topbar-nav align-items-start">
+            <nav class="navbar navbar-expand-lg topbar-nav d-flex justify-content-between">
                 <div class="breadcumbs">
                     <div class="breadcumbs-route">
                         <i class="fa-solid fa-house"></i>
@@ -72,6 +72,9 @@
                         <h4>@ViewData["Title"]</h4>
                     </div>
                 </div>
+                <a asp-controller="Home" asp-action="Index">
+                    Log in
+                </a>
             </nav>
         </div>
         <main role="main">

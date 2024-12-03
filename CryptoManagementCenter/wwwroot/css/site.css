@@ -100,7 +100,12 @@ li {
     height: 80px;
     padding: 0 32px;
 }
-.breadcumbs{
+#top-bar a {
+    border: 1px solid;
+    border-color: var(--border-color);
+    padding: 0.3rem 16px 0.3rem 16px;
+    font-weight: 600;
+    cursor: pointer;
 }
 .breadcumbs-route{
     margin-bottom: 3px;
