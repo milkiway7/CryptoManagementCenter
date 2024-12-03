@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using DataAccess.Models;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -66,13 +67,31 @@
             <nav class="navbar navbar-expand-lg topbar-nav d-flex justify-content-between">
                 <div class="breadcumbs">
                     <div class="breadcumbs-route">
-                        <i class="fa-solid fa-house"></i>
+                        <ol>
+                            <li>
+                                <a href="@Url.Action("Index","Home")">
+                                    <i class="fa-solid fa-house"></i>
+                                </a>
+                            </li>
+                            @if(ViewData["Breadcrumbs"] != null)
+                            {
+                                List<BreadcrumbsModel>? breadcumbs = ViewData["Breadcrumbs"] as List<BreadcrumbsModel>;
+                                foreach(BreadcrumbsModel breadcrumb in breadcumbs)
+                                {
+                                    <li>
+                                        <a href="@Url.Action($"{breadcrumb.Action}",$"{breadcrumb.Controller}")">
+                                            @breadcrumb.Name
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        </ol>
                     </div>
                     <div>
                         <h4>@ViewData["Title"]</h4>
                     </div>
                 </div>
-                <a asp-controller="Home" asp-action="Index">
+                <a class="button-style" asp-controller="Home" asp-action="Register">
                     Log in
                 </a>
             </nav>

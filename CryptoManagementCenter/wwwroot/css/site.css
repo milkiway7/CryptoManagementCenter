@@ -36,6 +36,13 @@ a {
 li {
     list-style: none;
 }
+.button-style {
+    border: 1px solid;
+    border-color: var(--border-color);
+    padding: 0.3rem 16px 0.3rem 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
 /*SIDEBAR*/
 #sidebar {
     border-right: solid 1px var(--border-color);
@@ -100,13 +107,34 @@ li {
     height: 80px;
     padding: 0 32px;
 }
-#top-bar a {
-    border: 1px solid;
-    border-color: var(--border-color);
-    padding: 0.3rem 16px 0.3rem 16px;
-    font-weight: 600;
-    cursor: pointer;
+.breadcumbs-route ol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
 }
-.breadcumbs-route{
+    .breadcumbs-route ol li {
+        margin-right: 7px;
+        
+    }
+    .breadcumbs-route ol li::after {
+        content: "/"
+    }
+        .breadcumbs-route ol li:last-child::after {
+            content: ""
+        }
+.breadcumbs-route a {
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+    color: black !important;
+}
+.breadcumbs-route {
     margin-bottom: 3px;
+}
+/*REGISTER / LOGIN*/
+.login-modal{
+    width:400px;
+    margin:auto;
+    padding-top: 30px;
 }

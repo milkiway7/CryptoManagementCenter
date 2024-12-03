@@ -8,7 +8,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoManagementCenter", "C
 		{431CBF22-8EA6-42E4-BF83-048C682437CD} = {431CBF22-8EA6-42E4-BF83-048C682437CD}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{431CBF22-8EA6-42E4-BF83-048C682437CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{431CBF22-8EA6-42E4-BF83-048C682437CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

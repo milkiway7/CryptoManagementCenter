@@ -1,4 +1,5 @@
 using CryptoManagementCenter.Models;
+using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -27,6 +28,16 @@ namespace CryptoManagementCenter.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Register()
+        {
+            ViewData["Breadcrumbs"] = new List<BreadcrumbsModel>()
+            {
+                new BreadcrumbsModel{Name="Register",Action="Register",Controller="Home"}
+            };
+
+            return View();
         }
     }
 }
