@@ -62,6 +62,18 @@
         </nav>
     </header>
     <div id="content">
+        <div id="top-bar">
+            <nav class="navbar navbar-expand-lg topbar-nav align-items-start">
+                <div class="breadcumbs">
+                    <div class="breadcumbs-route">
+                        <i class="fa-solid fa-house"></i>
+                    </div>
+                    <div>
+                        <h4>@ViewData["Title"]</h4>
+                    </div>
+                </div>
+            </nav>
+        </div>
         <main role="main">
             @RenderBody()
         </main>

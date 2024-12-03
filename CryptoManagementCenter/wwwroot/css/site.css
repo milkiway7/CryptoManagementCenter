@@ -24,6 +24,7 @@ html {
 body {
     height: 100%;
     display: flex;
+    background-color: var(--bg-color);
 }
 
 a {
@@ -93,4 +94,14 @@ li {
 /*CONTENT*/
 #content {
     flex-grow: 1;
+}
+/*TOPBAR*/
+#top-bar{
+    height: 80px;
+    padding: 0 32px;
+}
+.breadcumbs{
+}
+.breadcumbs-route{
+    margin-bottom: 3px;
 }
