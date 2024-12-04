@@ -1,0 +1,41 @@
+﻿@using DataAccess.Models
+@model UserModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="login-modal">
+    <div class="text-center">
+        <h2>Create account</h2>
+    </div>
+    <form method="post">
+        <div class="mt-2">
+            <label class="form-label" asp-for="EmailAddress"></label>
+            <input type="email" class="form-control" asp-for="EmailAddress" />
+            <div class="text-center">
+                <span asp-validation-for="EmailAddress" class="text-danger text-center"></span>
+            </div>
+        </div>
+        <div class="mt-2">
+            <label asp-for="Password" class="form-label"></label>
+            <input type="password" asp-for="Password" class="form-control" />
+            <div class="text-center">
+                <span asp-validation-for="Password" class="text-danger text-center"></span>
+            </div>
+        </div class="mt-2">
+        <div class="mt-2">
+            <label asp-for="ConfirmPassword" class="form-label"></label>
+            <input type="password" asp-for="ConfirmPassword" class="form-control"/>
+            <div class="text-center">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger mt-2 asp-summary-validation text-center fw-bolder"></div>
+        <div class="text-center mt-3">
+            <button class="button-style" type="submit">Register</button>
+        </div>
+    </form>
+    <div class="mt-3 text-center">
+        <h5>Already have an account? <a asp-controller="Home" asp-action="Login" style="color:cornflowerblue">Log in</a></h5>
+    </div>
+</div>
