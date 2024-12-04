@@ -53,7 +53,15 @@ namespace CryptoManagementCenter.Controllers
 
                 if(checkIfExsist == null)
                 {
-                    await _userRepository.CreateUser(user);
+                    UserModel newUser = new UserModel()
+                    {
+                        Id = Guid.NewGuid(),
+                        CreatedAt = DateTime.Now,
+                        EmailAddress = user.EmailAddress,
+                        Password = _userRepository.HashPassword(user.Password)
+                    };
+
+                    await _userRepository.CreateUser(newUser);
 
                     return View(nameof(Index));
                 }

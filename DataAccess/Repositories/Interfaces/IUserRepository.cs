@@ -11,5 +11,6 @@ namespace DataAccess.Repositories.Interfaces
     {
         Task CreateUser(UserModel user);
         Task<UserModel> GetUserByEmail(string email);
+        string HashPassword(string password);
     }
 }

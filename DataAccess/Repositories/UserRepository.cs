@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,6 +27,16 @@ namespace DataAccess.Repositories
         public async Task<UserModel> GetUserByEmail(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.EmailAddress == email); 
+        }
+
+        public string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(bytes);
+            }
+
         }
     }
 }
