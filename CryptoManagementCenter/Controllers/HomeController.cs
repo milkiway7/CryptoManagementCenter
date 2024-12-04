@@ -71,5 +71,17 @@ namespace CryptoManagementCenter.Controllers
             return View();
         }
         #endregion
+
+        #region Log in
+        public IActionResult Login()
+        {
+            ViewData["Breadcrumbs"] = new List<BreadcrumbsModel>()
+            {
+                new BreadcrumbsModel{Name="Log in", Action="Login", Controller="Home" }
+            };
+
+            return View();
+        }
+        #endregion
     }
 }
