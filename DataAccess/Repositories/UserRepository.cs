@@ -1,5 +1,6 @@
 ﻿using DataAccess.Models;
 using DataAccess.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,11 @@ namespace DataAccess.Repositories
         {
             _context.Users.Add(user);
             await SaveAsync();
+        }
+            
+        public async Task<UserModel> GetUserByEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.EmailAddress == email); 
         }
     }
 }

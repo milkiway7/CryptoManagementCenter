@@ -10,5 +10,6 @@ namespace DataAccess.Repositories.Interfaces
     public interface IUserRepository
     {
         Task CreateUser(UserModel user);
+        Task<UserModel> GetUserByEmail(string email);
     }
 }
