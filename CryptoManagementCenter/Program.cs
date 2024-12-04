@@ -12,6 +12,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("CmcConnectionString"));
 });
+builder.Services.AddAuthentication(builder.Configuration["CookieName"]).AddCookie(builder.Configuration["CookieName"],options =>
+{
+    options.Cookie.Name = builder.Configuration["CookieName"];
+    options.LoginPath = "/Home/Login";
+});
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
@@ -29,6 +34,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

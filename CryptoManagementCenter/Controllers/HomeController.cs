@@ -1,8 +1,10 @@
 using CryptoManagementCenter.Models;
 using DataAccess.Models;
 using DataAccess.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace CryptoManagementCenter.Controllers
 {
@@ -10,11 +12,13 @@ namespace CryptoManagementCenter.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUserRepository _userRepository;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger, IUserRepository userRepository)
+        public HomeController(ILogger<HomeController> logger, IUserRepository userRepository, IConfiguration configuration)
         {
             _logger = logger;
             _userRepository = userRepository;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
@@ -82,6 +86,43 @@ namespace CryptoManagementCenter.Controllers
 
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> LoginAsync(UserModel user)
+        {
+            if(user.Password != null && user.EmailAddress != null)
+            {
+                UserModel checkIfExsist = await _userRepository.GetUserByEmail(user.EmailAddress);
+
+                if (checkIfExsist != null) { 
+                    List<Claim> claims = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.Name,user.EmailAddress),
+                        new Claim(ClaimTypes.Email, user.EmailAddress)
+                    };
+
+                    ClaimsIdentity identity = new ClaimsIdentity(claims, _configuration["CookieName"]);
+                    ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+                    AuthenticationProperties properties = new AuthenticationProperties()
+                    {
+                        IsPersistent = user.RememberMe
+                    };
+
+                    await HttpContext.SignInAsync(_configuration["CookieName"],principal, properties);
+
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
+            ModelState.AddModelError("", "Email or password are incorrect");
+            return View();
+        }
         #endregion
+
+        public async Task<IActionResult> LogOutAsync()
+        {
+            await HttpContext.SignOutAsync(_configuration["CookieName"]);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

@@ -29,7 +29,7 @@
             <ul>
                 <li>
                     <a asp-controller="Home" asp-action="Index">
-                        <span >
+                        <span>
                             <i class="fa-solid fa-house"></i>
                         </span>
                         <span>
@@ -37,17 +37,19 @@
                         </span>
                     </a>
                 </li>
-                <li>
-
-                    <a asp-controller="NewProject" asp-action="Index">
-                        <span>
-                            <i class="fa-solid fa-plus"></i>
-                        </span>
-                        <span>
-                            New project
-                        </span>
-                    </a>
-                </li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li>
+                        <a asp-controller="NewProject" asp-action="Index">
+                            <span>
+                                <i class="fa-solid fa-plus"></i>
+                            </span>
+                            <span>
+                                New project
+                            </span>
+                        </a>
+                    </li>
+                }
                 <li>
 
                     <a asp-controller="Home" asp-action="Privacy">
@@ -73,10 +75,10 @@
                                     <i class="fa-solid fa-house"></i>
                                 </a>
                             </li>
-                            @if(ViewData["Breadcrumbs"] != null)
+                            @if (ViewData["Breadcrumbs"] != null)
                             {
                                 List<BreadcrumbsModel>? breadcumbs = ViewData["Breadcrumbs"] as List<BreadcrumbsModel>;
-                                foreach(BreadcrumbsModel breadcrumb in breadcumbs)
+                                foreach (BreadcrumbsModel breadcrumb in breadcumbs)
                                 {
                                     <li>
                                         <a href="@Url.Action($"{breadcrumb.Action}",$"{breadcrumb.Controller}")">
@@ -91,9 +93,18 @@
                         <h4>@ViewData["Title"]</h4>
                     </div>
                 </div>
-                <a class="button-style" asp-controller="Home" asp-action="Login">
-                    Log in
-                </a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="button-style" asp-controller="Home" asp-action="Logout">
+                        Log out
+                    </a>
+                }
+                else
+                {
+                    <a class="button-style" asp-controller="Home" asp-action="Login">
+                        Log in
+                    </a>
+                }
             </nav>
         </div>
         <main role="main">
