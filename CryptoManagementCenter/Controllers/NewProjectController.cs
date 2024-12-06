@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DataAccess.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoManagementCenter.Controllers
@@ -8,6 +9,10 @@ namespace CryptoManagementCenter.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["Breadcrumbs"] = new List<BreadcrumbsModel>()
+            {
+                new BreadcrumbsModel(){Name="New project"}
+            };
             return View();
         }
     }
