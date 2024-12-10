@@ -18,7 +18,10 @@ builder.Services.AddAuthentication(builder.Configuration["CookieName"]).AddCooki
     options.LoginPath = "/Home/Login";
 });
 
+//REPOSITORIES
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<INewProjectRepository, NewProjectRepository>();
+
 
 var app = builder.Build();
 
