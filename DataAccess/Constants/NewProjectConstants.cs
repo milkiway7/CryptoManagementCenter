@@ -13,7 +13,6 @@ namespace DataAccess.Constants
             public const string Empty = "Empty from";
             public const string Created = "Created";
             public const string Closed = "Project closed";
-            public const string Correction = "Corection";
             public const string Rejected = "Project rejected";
         }
     }
