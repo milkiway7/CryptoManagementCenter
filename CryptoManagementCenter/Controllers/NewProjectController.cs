@@ -15,5 +15,14 @@ namespace CryptoManagementCenter.Controllers
             };
             return View();
         }
+
+        [HttpPost]
+        [Route("NewProject/AddProjectAsync")]
+        public async Task<IActionResult> CreateNewProjectAsync([FromBody] NewProjectModel data )
+        {
+            if (data == null) BadRequest(new { error = true, message = "Error: no data provided" });
+
+            return View();
+        }
     }
 }

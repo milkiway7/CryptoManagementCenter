@@ -7,6 +7,6 @@
         closed: "Project closed",
         correction: "Correction",
         rejected: "Project rejected"
-    }
-    
+    },
+    requiredFields: ['projectName', 'cryptocurrency', 'startDate', 'endDate', 'investmentAmount', 'investmentType','investmentStrategy']
 }
