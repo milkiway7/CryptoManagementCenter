@@ -9,3 +9,7 @@
 
     return errors;
 }
+
+export function dateTimeWithoutSeconds(date) {
+    return date.slice(0, 16);
+}

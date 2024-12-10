@@ -1,4 +1,5 @@
-﻿export function processForm(setFormData, updatedStatus, httpRequest) {
+﻿import { dateTimeWithoutSeconds } from "../Helpers/GenericHelpers"
+export function processForm(setFormData, updatedStatus, httpRequest) {
     setFormData(prevData => {
 
         const updatedData = {
@@ -30,7 +31,7 @@ export function addNewProjectPOST(formData, setFormData) {
                 ...prevState,
                 id: data.id,
                 status: data.status,
-                createdAt: data.createdAt,
+                createdAt: dateTimeWithoutSeconds(data.createdAt),
                 createdBy: data.createdBy
             }))
         }

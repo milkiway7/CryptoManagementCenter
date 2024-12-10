@@ -5,7 +5,7 @@ import { validateFields } from "../Helpers/GenericHelpers"
 
 export const NewProject = () => {
     const [formData, setFormData] = useState({
-        id: 0,
+        id: newProjectConstants.statuses.empty,
         createdAt: null,
         createdBy: null,
         status: newProjectConstants.statuses.empty,
