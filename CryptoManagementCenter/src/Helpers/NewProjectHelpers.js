@@ -29,7 +29,9 @@ export function addNewProjectPOST(formData, setFormData) {
             setFormData(prevState => ({
                 ...prevState,
                 id: data.id,
-/*                createdAt: data.createdAt*/
+                status: data.status,
+                createdAt: data.createdAt,
+                createdBy: data.createdBy
             }))
         }
     }).catch(error => {

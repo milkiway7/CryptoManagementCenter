@@ -15,8 +15,8 @@ namespace DataAccess.Helpers
             return (new NewProjectModel
             {
                 CreatedAt = DateTime.Now,
-                CreatedBy = Guid.NewGuid(),
-                Status = "New status",
+                CreatedBy = createdBy,
+                Status = status,
                 ProjectName = dto.ProjectName,
                 ProjectDescription = dto.ProjectDescription,
                 Cryptocurrency = dto.Cryptocurrency,
