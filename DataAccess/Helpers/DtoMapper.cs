@@ -14,7 +14,7 @@ namespace DataAccess.Helpers
         {
             return (new NewProjectModel
             {
-                CreatedAt = DateTime.Now,
+                CreatedAt = dto.CreatedAt ?? DateTime.Now,
                 CreatedBy = createdBy,
                 Status = status,
                 ProjectName = dto.ProjectName,

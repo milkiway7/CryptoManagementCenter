@@ -10,5 +10,6 @@ namespace DataAccess.Repositories.Interfaces
     public interface INewProjectRepository
     {
         Task<bool> CreateNewProjectAsync(NewProjectModel model);
+        Task<bool> UpdateNewProjectAsync(NewProjectModel newProject);
     }
 }

@@ -53,5 +53,29 @@ namespace CryptoManagementCenter.Controllers
                 return StatusCode(500, new { error = true, message = "Server error: new project creation failed" });
             }
         }
+
+        [HttpPatch]
+        [Route("NewProject/ProcessForm")]
+        public async Task<IActionResult> ProcessFormAsync([FromBody] NewProjectDto data)
+        {
+            if (!ModelState.IsValid) BadRequest(new { error = true, message = "Error: no data provided" });
+
+            UserModel user = await _userRepository.GetUserByEmail(User.Identity.Name);
+
+            if (user == null) StatusCode(500, new { error = true, message = "Error: user not found" });
+
+            NewProjectModel project = DtoMapper.MapNewProject(data, user.Id, data.Status);
+
+            bool success = await _newProjectRepository.UpdateNewProjectAsync(project);
+
+            if (success)
+            {
+                return Ok(new { success = true, message = "New project updated"});
+            }
+            else
+            {
+                return StatusCode(500, new { error = true, message = "Server error: new project update failed" });
+            }
+        }
     }
 }

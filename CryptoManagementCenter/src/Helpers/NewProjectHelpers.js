@@ -39,3 +39,20 @@ export function addNewProjectPOST(formData, setFormData) {
         console.log(`Error: ${error}`)
     })
 }
+
+export function updateNewProjectPATCH(formData) {
+    fetch("NewProject/ProcessForm", {
+        method: "PATCH",
+        headers: {
+            'Content-Type':"application/json"
+        },
+        body: JSON.stringify(formData)
+    }).then(response => {
+        if (!response.ok()) {
+            throw new Error(`HTTP error, project couldn't be processed / created'. Status: ${response.status}`);
+        }
+        return response.json()
+    }).catch(error => {
+        console.log(`Error: ${error}`)
+    })
+}

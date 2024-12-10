@@ -10,14 +10,14 @@ namespace DataAccess.Models.DTO
 {
     public class NewProjectDto
     {
-        //[JsonPropertyName("id")]
-        //public int? Id { get; set; }
-        //[JsonPropertyName("createdAt")]
-        //public DateTime? CreatedAt { get; set; }
-        //[JsonPropertyName("createdBy")]
-        //public string? CreatedBy { get; set; }
-        //[JsonPropertyName("status")]
-        //public string? Status { get; set; }
+        [JsonPropertyName("id")]
+        public int? Id { get; set; }
+        [JsonPropertyName("createdAt")]
+        public DateTime? CreatedAt { get; set; }
+        [JsonPropertyName("createdBy")]
+        public string? CreatedBy { get; set; }
+        [JsonPropertyName("status")]
+        public string? Status { get; set; }
         [Required]
         [JsonPropertyName("projectName")]
         public string ProjectName { get; set; }

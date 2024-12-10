@@ -1,11 +1,11 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { newProjectConstants } from '../Constants/newProjectConstants'
-import { processForm, addNewProjectPOST } from "../Helpers/NewProjectHelpers"
+import { processForm, addNewProjectPOST, updateNewProjectPATCH } from "../Helpers/NewProjectHelpers"
 import { validateFields } from "../Helpers/GenericHelpers"
 
 export const NewProject = () => {
     const [formData, setFormData] = useState({
-        id: newProjectConstants.statuses.empty,
+        id: null,
         createdAt: null,
         createdBy: null,
         status: newProjectConstants.statuses.empty,
@@ -44,20 +44,30 @@ export const NewProject = () => {
 
         const action = e.nativeEvent.submitter.value;
 
+        let validationError = handleValidation();
+
         switch (action) {
             case "create-project":
-                let validationError = handleValidation();
-                console.log(validationError);
                 if (Object.keys(validationError).length === 0) {
                     processForm(setFormData, newProjectConstants.statuses.created, addNewProjectPOST)
                 }
                 break;
+            case "reject-project":
+                if (Object.keys(validationError).length === 0) {
+                    processForm(setFormData, newProjectConstants.statuses.rejected, updateNewProjectPATCH)
+                }
+                break;
+            case "correction-project":
+                break;
+            case "finalize-project":
+                break;
+
         }
     }
 
     return (
-        <form method="post" onSubmit={ handleSubmit }>
-            <SystemInformation formData={formData} handleFormData={handleFormData} />
+        <form method="post" onSubmit={handleSubmit}>
+            {formData.status != newProjectConstants.statuses.empty && <SystemInformation formData={formData} handleFormData={handleFormData} />}
             <BasicInformation formData={formData} handleFormData={handleFormData} validation={validation} />
             <InvestmentDetails formData={formData} handleFormData={handleFormData} validation={validation} />
             <InvestmentStrategy formData={formData} handleFormData={handleFormData} validation={validation} />
@@ -180,16 +190,33 @@ const ButtonsSection = ({ status }) => {
         switch (status) {
             case newProjectConstants.statuses.empty:
                 return (
-                    <button className="button-style" type="submit" name="action" value="create-project">
-                        Create
-                    </button>
+                    <div className="form-buttons-list">
+                        <button className="button-style" type="submit" name="action" value="create-project">
+                            Create
+                        </button>
+                    </div>
                 )
                 break;
+            case newProjectConstants.statuses.created:
+                return (
+                    <div className="form-buttons-list">
+                        <button className="button-style" type="submit" name="action" value="reject-project">
+                            Reject
+                        </button>
+                        <button className="button-style" type="submit" name="action" value="correction-project">
+                            Correction
+                        </button>
+                        <button className="button-style" type="submit" name="action" value="finalize-project">
+                            Finalize
+                        </button>
+                    </div>
+
+                )
         }
     }
 
     return (
-        <div className="form-buttons-list">
+        <div>
             {renderButtons()}
         </div>
     )
