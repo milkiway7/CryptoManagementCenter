@@ -1,7 +1,7 @@
 ﻿using DataAccess.Constants;
-using DataAccess.DTO;
 using DataAccess.Helpers;
 using DataAccess.Models;
+using DataAccess.Models.DTO;
 using DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

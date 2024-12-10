@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace DataAccess.DTO
+namespace DataAccess.Models.DTO
 {
     public class NewProjectDto
     {
