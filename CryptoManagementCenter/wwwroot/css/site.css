@@ -43,6 +43,38 @@ li {
     font-weight: 600;
     cursor: pointer;
 }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 14px;
+    text-align: left;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: white;
+    color: black;
+    text-align: center;
+    font-weight: 500;
+}
+
+tr:nth-child(even) {
+    background-color: #f3f3f3;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+td {
+    text-align: center;
+}
 /*SIDEBAR*/
 #sidebar {
     border-right: solid 1px var(--border-color);
@@ -152,3 +184,4 @@ li {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+

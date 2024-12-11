@@ -72,5 +72,16 @@ namespace CryptoManagementCenter.Controllers
                 return StatusCode(500, new { error = true, message = "Server error: new project update failed" });
             }
         }
+
+        #region New Project Report
+        public IActionResult Report()
+        {
+            ViewData["Breadcrumbs"] = new List<BreadcrumbsModel>()
+            {
+                new BreadcrumbsModel(){Name="New project report"}
+            };
+            return View();
+        }
+        #endregion
     }
 }
