@@ -9,13 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace CryptoManagementCenter.Controllers
 {
     [Authorize]
-    public class NewProjectController : Controller
+    public class NewProjectController : BaseController
     {
-        private readonly IUserRepository _userRepository;
         private readonly INewProjectRepository _newProjectRepository;
-        public NewProjectController(IUserRepository userRepository, INewProjectRepository newProjectRepository)
+
+        public NewProjectController(IUserRepository userRepository, INewProjectRepository newProjectRepository) : base(userRepository) 
         {
-            _userRepository = userRepository;
             _newProjectRepository = newProjectRepository;
         }
 
@@ -34,11 +33,9 @@ namespace CryptoManagementCenter.Controllers
         {
             if (!ModelState.IsValid) BadRequest(new { error = true, message = "Error: no data provided" });
 
-            UserModel user = await _userRepository.GetUserByEmail(User.Identity.Name);
+            if(_user == null) StatusCode(500, new { error = true, message = "Error: user not found" });
 
-            if(user == null) StatusCode(500, new { error = true, message = "Error: user not found" });
-
-            NewProjectModel newProject = DtoMapper.MapNewProject(data, user.Id, NewProjectConstants.Statuses.Created);
+            NewProjectModel newProject = DtoMapper.MapNewProject(data, _user.Id, NewProjectConstants.Statuses.Created);
 
             if (!TryValidateModel(newProject)) StatusCode(500, new { error = true, message = "Error: New Project Model is invalid" });
 
@@ -46,7 +43,7 @@ namespace CryptoManagementCenter.Controllers
 
             if (success)
             {
-                return Ok(new { success = true, message = "New project created", id = newProject.Id, status = newProject.Status, createdAt = newProject.CreatedAt, createdBy = user.EmailAddress });
+                return Ok(new { success = true, message = "New project created", id = newProject.Id, status = newProject.Status, createdAt = newProject.CreatedAt, createdBy = _user.EmailAddress });
             }
             else
             {
@@ -60,11 +57,9 @@ namespace CryptoManagementCenter.Controllers
         {
             if (!ModelState.IsValid) BadRequest(new { error = true, message = "Error: no data provided" });
 
-            UserModel user = await _userRepository.GetUserByEmail(User.Identity.Name);
+            if (_user == null) StatusCode(500, new { error = true, message = "Error: user not found" });
 
-            if (user == null) StatusCode(500, new { error = true, message = "Error: user not found" });
-
-            NewProjectModel project = DtoMapper.MapNewProject(data, user.Id, data.Status);
+            NewProjectModel project = DtoMapper.MapNewProject(data, _user.Id, data.Status);
 
             bool success = await _newProjectRepository.UpdateNewProjectAsync(project);
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
-    public class BaseRepository
+    public abstract class BaseRepository
     {
         private readonly ApplicationDbContext _context;
         public BaseRepository(ApplicationDbContext context)
