@@ -11,5 +11,6 @@ namespace DataAccess.Repositories.Interfaces
     {
         Task<bool> CreateNewProjectAsync(NewProjectModel model);
         Task<bool> UpdateNewProjectAsync(NewProjectModel newProject);
+        Task<IEnumerable<NewProjectModel>> GetAllNewProjectsAsync(Guid userId);
     }
 }

@@ -13,3 +13,7 @@
 export function dateTimeWithoutSeconds(date) {
     return date.slice(0, 16);
 }
+
+export function onlyDate(date) {
+    return date.slice(0, 10);
+}

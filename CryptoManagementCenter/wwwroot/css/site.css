@@ -22,9 +22,10 @@ html {
 }
 
 body {
-    height: 100%;
+
     display: flex;
     background-color: var(--bg-color);
+    height: 100%;
 }
 
 a {
@@ -184,4 +185,8 @@ td {
     margin-top: 20px;
     margin-bottom: 20px;
 }
-
+/*TABLLE*/
+.table{
+    height: 500px;
+    overflow-y: scroll;
+}

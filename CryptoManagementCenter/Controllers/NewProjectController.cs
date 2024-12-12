@@ -82,6 +82,15 @@ namespace CryptoManagementCenter.Controllers
             };
             return View();
         }
+
+        [HttpGet]
+        [Route("NewProject/ProjectReport")]
+        public async Task<IActionResult> GetReportAsync()
+        {
+            IEnumerable<NewProjectModel> projects = await _newProjectRepository.GetAllNewProjectsAsync(_user.Id);
+
+            return Json(projects);
+        }
         #endregion
     }
 }
