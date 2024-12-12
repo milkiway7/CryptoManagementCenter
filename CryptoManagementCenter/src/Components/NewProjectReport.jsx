@@ -47,6 +47,7 @@ const TableBody = ({ reportState }) => {
 
     function handleRowClick(row) {
         navigate('/NewProject', { state: row });
+        window.location.reload();
     };
 
     return (
