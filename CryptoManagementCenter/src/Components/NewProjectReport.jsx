@@ -1,5 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react'
 import { onlyDate } from '../Helpers/GenericHelpers'
+import { useNavigate } from 'react-router-dom';
 
 export const NewProjectReport = () => {
     const [reportState, setReportState] = useState()
@@ -15,10 +16,6 @@ export const NewProjectReport = () => {
             })
     }, [])
 
-    useEffect(() => {
-        console.log('here')
-        console.log(reportState)
-    }, [reportState])
     return (
         <div className="section">
             <div className="table">
@@ -45,11 +42,18 @@ export const NewProjectReport = () => {
 }
 
 const TableBody = ({ reportState }) => {
+
+    const navigate = useNavigate();
+
+    function handleRowClick(row) {
+        navigate('/NewProject', { state: row });
+    };
+
     return (
         <tbody>
             {reportState.map(row => {
                 return (
-                    <tr onClick={() => console.log(row.id + " " + row.createdBy)} style={{cursor:'pointer'} }>
+                    <tr onClick={() => handleRowClick(row)} style={{cursor:'pointer'} }>
                         <td>
                             { row.id }
                         </td>
