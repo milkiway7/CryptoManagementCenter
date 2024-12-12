@@ -49,7 +49,7 @@ const TableBody = ({ reportState }) => {
         <tbody>
             {reportState.map(row => {
                 return (
-                    <tr>
+                    <tr onClick={() => console.log(row.id + " " + row.createdBy)} style={{cursor:'pointer'} }>
                         <td>
                             { row.id }
                         </td>
