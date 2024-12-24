@@ -1,26 +1,23 @@
 ﻿import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { newProjectConstants } from '../Constants/newProjectConstants';
 import { processForm, addNewProjectPOST, updateNewProjectPATCH } from "../Helpers/NewProjectHelpers";
 import { validateFields } from "../Helpers/GenericHelpers";
 
 export const NewProject = () => {
-    const { state: projectDataFromReport } = useLocation();
-    console.log(projectDataFromReport);
     const [formData, setFormData] = useState({
-        id: projectDataFromReport?.id ||  null,
-        createdAt: projectDataFromReport?.createdAt || null,
-        createdBy: projectDataFromReport?.createdBy || null,
-        status: projectDataFromReport?.status || newProjectConstants.statuses.empty,
-        projectName: projectDataFromReport?.projectName || null,
-        projectDescription: projectDataFromReport?.projectDescription || null,
-        cryptocurrency: projectDataFromReport?.cryptocurrency || "",
-        startDate: projectDataFromReport?.startDate || null,
-        endDate: projectDataFromReport?.endDate || null,
-        investmentAmount: projectDataFromReport?.investmentAmount || null,
-        investmentFund: projectDataFromReport?.investmentFund || null,
-        investmentType: projectDataFromReport?.investmentType || "",
-        investmentStrategy: projectDataFromReport?.investmentStrategy || null
+        id: null,
+        createdAt: null,
+        createdBy: null,
+        status: newProjectConstants.statuses.empty,
+        projectName: null,
+        projectDescription: null,
+        cryptocurrency: "",
+        startDate: null,
+        endDate: null,
+        investmentAmount: null,
+        investmentFund: null,
+        investmentType: "",
+        investmentStrategy: null
     })
     const [validation, setValidation] = useState({});
     const isReadOnly = formData.status == newProjectConstants.statuses.rejected || formData.status == newProjectConstants.statuses.closed

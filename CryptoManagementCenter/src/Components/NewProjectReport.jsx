@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react'
 import { onlyDate } from '../Helpers/GenericHelpers'
-import { useNavigate } from 'react-router-dom';
+
 
 export const NewProjectReport = () => {
     const [reportState, setReportState] = useState()
@@ -43,12 +43,7 @@ export const NewProjectReport = () => {
 
 const TableBody = ({ reportState }) => {
 
-    const navigate = useNavigate();
 
-    function handleRowClick(row) {
-        navigate('/NewProject', { state: row });
-        window.location.reload();
-    };
 
     return (
         <tbody>
