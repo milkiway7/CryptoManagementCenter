@@ -43,7 +43,24 @@ export const NewProjectReport = () => {
 
 const TableBody = ({ reportState }) => {
 
-
+    function handleRowClick(row) {
+        fetch('/NewProject/Edit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(row),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirectUrl) {
+                    window.location.href = data.redirectUrl;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
 
     return (
         <tbody>

@@ -5,6 +5,7 @@ using DataAccess.Models.DTO;
 using DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CryptoManagementCenter.Controllers
 {
@@ -13,27 +14,32 @@ namespace CryptoManagementCenter.Controllers
     {
         private readonly INewProjectRepository _newProjectRepository;
 
-        public NewProjectController(IUserRepository userRepository, INewProjectRepository newProjectRepository) : base(userRepository) 
+        public NewProjectController(IUserRepository userRepository, INewProjectRepository newProjectRepository) : base(userRepository)
         {
             _newProjectRepository = newProjectRepository;
         }
 
         public IActionResult Index()
         {
+            var createdProjectJson = TempData["CreatedProject"];
+
             ViewData["Breadcrumbs"] = new List<BreadcrumbsModel>()
             {
                 new BreadcrumbsModel(){Name="New project"}
             };
+
+            ViewData["ProjectJson"] = createdProjectJson;
+
             return View();
         }
 
         [HttpPost]
         [Route("NewProject/AddProjectAsync")]
-        public async Task<IActionResult> CreateNewProjectAsync([FromBody] NewProjectDto data )
+        public async Task<IActionResult> CreateNewProjectAsync([FromBody] NewProjectDto data)
         {
             if (!ModelState.IsValid) BadRequest(new { error = true, message = "Error: no data provided" });
 
-            if(_user == null) StatusCode(500, new { error = true, message = "Error: user not found" });
+            if (_user == null) StatusCode(500, new { error = true, message = "Error: user not found" });
 
             NewProjectModel newProject = DtoMapper.MapNewProject(data, _user.Id, NewProjectConstants.Statuses.Created);
 
@@ -65,7 +71,7 @@ namespace CryptoManagementCenter.Controllers
 
             if (success)
             {
-                return Ok(new { success = true, message = "New project updated"});
+                return Ok(new { success = true, message = "New project updated" });
             }
             else
             {
@@ -90,6 +96,26 @@ namespace CryptoManagementCenter.Controllers
             IEnumerable<NewProjectModel> projects = await _newProjectRepository.GetAllNewProjectsAsync(_user.Id);
 
             return Json(projects);
+        }
+        [HttpPost]
+        [Route("NewProject/Edit")]
+        public IActionResult EditProject([FromBody] NewProjectDto project)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { error = true, message = "Error: no data provided" });
+            }
+
+            if (_user == null)
+            {
+                return StatusCode(500, new { error = true, message = "Error: user not found" });
+            }
+
+            // Zapisz model w TempData
+            TempData["CreatedProject"] = JsonConvert.SerializeObject(project);
+
+            // Zwróć odpowiedź JSON
+            return Ok(new { redirectUrl = Url.Action("Index") });
         }
         #endregion
     }

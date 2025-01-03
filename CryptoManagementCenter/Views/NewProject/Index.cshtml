@@ -1,5 +1,11 @@
 ﻿@{
     ViewData["Title"] = "New project";
 }
-<div id="newProject"></div>
+<div id="newProject" data-new-project='@Html.Raw(Json.Serialize(ViewData["ProjectJson"]))'></div>
+@* <script>
+    var newProjectModel = @Html.Raw(ViewData["ProjectJson"] ?? "null");
+    if (newProjectModel) {
+        window.newProjectModel = newProjectModel;
+    }
+</script> *@
 <script src="~/js/bundle.js"></script>

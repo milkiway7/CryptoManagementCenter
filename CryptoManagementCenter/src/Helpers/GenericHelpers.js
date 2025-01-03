@@ -17,3 +17,15 @@ export function dateTimeWithoutSeconds(date) {
 export function onlyDate(date) {
     return date.slice(0, 10);
 }
+
+export function convertKeysToLowerCase(obj) {
+    // Tworzymy nowy obiekt z kluczami w małych literach
+    const newObj = {};
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            // Przypisujemy wartość do nowego obiektu z kluczem w małych literach
+            newObj[key.charAt(0).toLowerCase() + key.slice(1)] = obj[key];
+        }
+    }
+    return newObj;
+}

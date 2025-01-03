@@ -1,7 +1,7 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { newProjectConstants } from '../Constants/newProjectConstants';
 import { processForm, addNewProjectPOST, updateNewProjectPATCH } from "../Helpers/NewProjectHelpers";
-import { validateFields } from "../Helpers/GenericHelpers";
+import { validateFields, convertKeysToLowerCase } from "../Helpers/GenericHelpers";
 
 export const NewProject = () => {
     const [formData, setFormData] = useState({
@@ -19,6 +19,17 @@ export const NewProject = () => {
         investmentType: "",
         investmentStrategy: null
     })
+
+    useEffect(() => {
+        const newProjectElement = document.getElementById('newProject');
+        const projectData = newProjectElement?.getAttribute('data-new-project');
+        if (projectData != "null") {
+            const parsedData = convertKeysToLowerCase(JSON.parse(JSON.parse(projectData)))
+            console.log(parsedData)
+            setFormData(parsedData)
+        }
+    },[])
+
     const [validation, setValidation] = useState({});
     const isReadOnly = formData.status == newProjectConstants.statuses.rejected || formData.status == newProjectConstants.statuses.closed
     function handleFormData(e) {
