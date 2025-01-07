@@ -1,5 +1,6 @@
 ﻿using DataAccess.Models;
 using DataAccess.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,13 @@ namespace DataAccess.Repositories
                 _logger.LogError(ex, "DATABASE: New Project creation failed");
                 return false;
             }
+        }
+
+        public async Task<IEnumerable<NewProjectModel>> GetAllNewProjectsAsync(Guid userId)
+        {
+            return await _context.NewProjects
+                .Where(p => p.CreatedBy == userId)
+                .ToListAsync();
         }
 
         public async Task<bool> UpdateNewProjectAsync(NewProjectModel newProject)

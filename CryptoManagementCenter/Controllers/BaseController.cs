@@ -24,7 +24,5 @@ namespace CryptoManagementCenter.Controllers
 
             await next();
         }
-
-        
     }
 }
