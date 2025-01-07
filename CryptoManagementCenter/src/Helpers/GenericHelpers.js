@@ -2,7 +2,7 @@
     const errors = {};
 
     fieldsToValidate.forEach(field => {
-        if (!formData[field] || formData[field].trim() === '') {
+        if (!formData[field]) {
             errors[field]= `${field} is required`
         }
     })

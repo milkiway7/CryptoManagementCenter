@@ -20,12 +20,12 @@ namespace DataAccess.Models.DTO
         public string? Status { get; set; }
         [Required]
         [JsonPropertyName("projectName")]
-        public string ProjectName { get; set; }
+        public string? ProjectName { get; set; }
         [JsonPropertyName("projectDescription")]
         public string? ProjectDescription { get; set; }
         [Required]
         [JsonPropertyName("cryptocurrency")]
-        public string Cryptocurrency { get; set; }
+        public string? Cryptocurrency { get; set; }
         [Required]
         [JsonPropertyName("startDate")]
         public DateTime StartDate { get; set; }
@@ -39,9 +39,9 @@ namespace DataAccess.Models.DTO
         public int? InvestmentFund { get; set; }
         [Required]
         [JsonPropertyName("investmentType")]
-        public string InvestmentType { get; set; }
+        public string? InvestmentType { get; set; }
         [Required]
         [JsonPropertyName("investmentStrategy")]
-        public string InvestmentStrategy { get; set; }
+        public string? InvestmentStrategy { get; set; }
     }
 }

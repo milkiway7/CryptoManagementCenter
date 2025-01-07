@@ -95,8 +95,21 @@ namespace CryptoManagementCenter.Controllers
         {
             IEnumerable<NewProjectModel> projects = await _newProjectRepository.GetAllNewProjectsAsync(_user.Id);
 
-            return Json(projects);
+            List<NewProjectDto> projectsDto = new List<NewProjectDto>();
+
+            foreach(NewProjectModel project in projects)
+            {
+                projectsDto.Add(DtoMapper.MapToNewProjectDto(project));
+            }
+
+            foreach (NewProjectDto dto in projectsDto)
+            {
+                dto.CreatedBy = _user.EmailAddress;
+            }
+
+            return Json(projectsDto);
         }
+
         [HttpPost]
         [Route("NewProject/Edit")]
         public IActionResult EditProject([FromBody] NewProjectDto project)

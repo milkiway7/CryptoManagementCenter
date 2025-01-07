@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react'
-import { onlyDate } from '../Helpers/GenericHelpers'
+import { dateTimeWithoutSeconds } from '../Helpers/GenericHelpers'
 
 
 export const NewProjectReport = () => {
@@ -71,7 +71,7 @@ const TableBody = ({ reportState }) => {
                             { row.id }
                         </td>
                         <td>
-                            {onlyDate(row.createdAt)}
+                            {dateTimeWithoutSeconds(row.createdAt)}
                         </td>
                         <td>
                             {row.createdBy}

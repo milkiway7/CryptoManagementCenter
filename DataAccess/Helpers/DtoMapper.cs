@@ -28,5 +28,25 @@ namespace DataAccess.Helpers
                 InvestmentStrategy = dto.InvestmentStrategy,
             });
         }
+
+        public static NewProjectDto MapToNewProjectDto(NewProjectModel newProject)
+        {
+            return (new NewProjectDto
+            {
+                Id = newProject.Id,
+                CreatedAt = newProject.CreatedAt,
+                CreatedBy = newProject.CreatedBy.ToString(),
+                Status = newProject.Status,
+                ProjectName = newProject.ProjectName,
+                ProjectDescription = newProject.ProjectDescription,
+                Cryptocurrency = newProject.Cryptocurrency,
+                StartDate = newProject.StartDate,
+                EndDate = newProject.EndDate,
+                InvestmentAmount = newProject.InvestmentAmount,
+                InvestmentFund = newProject.InvestmentFund,
+                InvestmentType= newProject.InvestmentType,
+                InvestmentStrategy= newProject.InvestmentStrategy,
+            });
+        }
     }
 }

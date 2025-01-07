@@ -25,7 +25,6 @@ export const NewProject = () => {
         const projectData = newProjectElement?.getAttribute('data-new-project');
         if (projectData != "null") {
             const parsedData = convertKeysToLowerCase(JSON.parse(JSON.parse(projectData)))
-            console.log(parsedData)
             setFormData(parsedData)
         }
     },[])
