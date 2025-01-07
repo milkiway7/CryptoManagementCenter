@@ -67,6 +67,11 @@ namespace CryptoManagementCenter.Controllers
 
             NewProjectModel project = DtoMapper.MapNewProject(data, _user.Id, data.Status);
 
+            if (data.Id.HasValue)
+            {
+                project.Id = data.Id.Value;
+            }
+
             bool success = await _newProjectRepository.UpdateNewProjectAsync(project);
 
             if (success)
@@ -124,10 +129,8 @@ namespace CryptoManagementCenter.Controllers
                 return StatusCode(500, new { error = true, message = "Error: user not found" });
             }
 
-            // Zapisz model w TempData
             TempData["CreatedProject"] = JsonConvert.SerializeObject(project);
 
-            // Zwróć odpowiedź JSON
             return Ok(new { redirectUrl = Url.Action("Index") });
         }
         #endregion
