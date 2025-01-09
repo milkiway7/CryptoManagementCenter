@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoManagementCenter.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/crypto")]
     public class BinanceController : Controller
