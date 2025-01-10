@@ -5,7 +5,12 @@ export const Charts = () => {
 
     const [lineChart, setLineChart] = useState([]);
     const [symbol, setSymbol] = useState(chartConstants.currencySymbol[0]);
-    const [interval, setInterval] = useState(chartConstants.interval[0]);
+    const [timeRange, setTimeRange] = useState(chartConstants.interval[0]);
+
+
+    //useEffect(() => { console.log(symbol)},[symbol])
+    //useEffect(() => { console.log(timeRange) }, [timeRange])
+
 
     useEffect(() => {
 
@@ -39,9 +44,9 @@ export const Charts = () => {
     return (
         <div className="line-chart">
             <div className="row px-5">
-                <div className="form-group col-6">
+                <div className="form-group col-3">
                     <label htmlFor="currency" className="mb-1">Currency</label>
-                    <select id="currency" className="form-select" name="currency" value={symbol} onChange={() => { setSymbol(e.target.value) } }>
+                    <select id="currency" className="form-select" name="currency" value={symbol} onChange={(e) => { setSymbol(e.target.value) } }>
                         {chartConstants.currencySymbol.map(currency => {
                             return (
                                 <option value={currency}>{currency}</option>
@@ -49,12 +54,12 @@ export const Charts = () => {
                         })}
                     </select>
                 </div>
-                <div className="form-group col-6">
-                    <label htmlFor="interval" className="mb-1">Interval</label>
-                    <select id="interval" className="form-select" name="interval" value={interval} onChange={() => { setSymbol(e.target.value) }}>
-                        {chartConstants.interval.map(interval => {
+                <div className="form-group col-3">
+                    <label htmlFor="timeRange" className="mb-1">Interval</label>
+                    <select id="timeRange" className="form-select" name="timeRange" value={timeRange} onChange={(e) => { setTimeRange(e.target.value) }}>
+                        {chartConstants.timeRange.map(timeRange => {
                             return (
-                                <option value={interval}>{interval}</option>
+                                <option value={timeRange}>{timeRange}</option>
                             )
                         })}
                     </select>
