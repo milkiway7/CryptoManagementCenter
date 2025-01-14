@@ -8,7 +8,6 @@ namespace BusinessLogic.Models
 {
     public class LineChartPoint
     {
-        public long ClosingTimeUnixSeconds {  get; set; }
         public DateTime ClosingTime { get; set; }
         public decimal Price { get; set; }
     }

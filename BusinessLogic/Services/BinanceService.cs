@@ -19,9 +19,16 @@ namespace BusinessLogic.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<LineChartPoint>> GetLineChartPointsAsync(string symbol, string interval)
+        public async Task<List<LineChartPoint>> GetLineChartPointsAsync(string symbol, string interval, long? startTime)
         {
-            var response = await _httpClient.GetAsync($"https://api.binance.com/api/v3/klines?symbol={symbol}&interval={interval}");
+            string url = $"https://api.binance.com/api/v3/klines?symbol={symbol}&interval={interval}";
+
+            if (startTime.HasValue)
+            {
+                url += $"&startTime={startTime}";
+            }
+
+            var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
@@ -34,16 +41,13 @@ namespace BusinessLogic.Services
             {
                 long closingTimeUnixSeconds = long.Parse(data[6].GetRawText()) / 1000;
                 decimal closingPrice = decimal.Parse(data[4].GetString(), CultureInfo.InvariantCulture);
-                var a = DateTimeOffset.FromUnixTimeSeconds(closingTimeUnixSeconds).LocalDateTime;
 
                 lineChartData.Add(new LineChartPoint {
-                    ClosingTimeUnixSeconds = closingTimeUnixSeconds,
                     ClosingTime = DateTimeOffset.FromUnixTimeSeconds(closingTimeUnixSeconds).LocalDateTime,
                     Price = closingPrice,
                 });
             }
 
-            //var klineData = JsonSerializer.Deserialize<L>
             return lineChartData;
         }
     }

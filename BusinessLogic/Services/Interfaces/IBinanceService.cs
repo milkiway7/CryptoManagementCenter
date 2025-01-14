@@ -9,6 +9,6 @@ namespace BusinessLogic.Services.Interfaces
 {
     public interface IBinanceService
     {
-        Task<List<LineChartPoint>> GetLineChartPointsAsync(string symbol, string interval);
+        Task<List<LineChartPoint>> GetLineChartPointsAsync(string symbol, string interval, long? startTime);
     }
 }

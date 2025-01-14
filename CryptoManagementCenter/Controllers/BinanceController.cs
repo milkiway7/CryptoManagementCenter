@@ -17,14 +17,16 @@ namespace CryptoManagementCenter.Controllers
         }
 
         [HttpGet("linechart")]
-        public async Task<IActionResult> GetLineChartData(string symbol = "BTCUSDT", string interval = "1h")
+        public async Task<IActionResult> GetLineChartData([FromQuery] string symbol, [FromQuery] string interval, [FromQuery] long? startTime)
         {
             if (string.IsNullOrEmpty(symbol))
             {
                 return BadRequest("Invalid symbol");
             }
 
-            var data = await _binanceService.GetLineChartPointsAsync(symbol, interval);
+            symbol += "USDT";
+
+            var data = await _binanceService.GetLineChartPointsAsync(symbol, interval, startTime);
 
             if (data == null)
             {
