@@ -190,3 +190,11 @@ td {
     height: 500px;
     overflow-y: scroll;
 }
+/*LINE CHART*/
+.line-chart{
+    overflow-x:hidden;
+}
+.recharts-wrapper {
+    padding-top: 40px;
+    margin: auto;
+}

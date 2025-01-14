@@ -1,3 +1,5 @@
+using BusinessLogic.Services;
+using BusinessLogic.Services.Interfaces;
 using DataAccess;
 using DataAccess.Repositories;
 using DataAccess.Repositories.Interfaces;
@@ -22,6 +24,9 @@ builder.Services.AddAuthentication(builder.Configuration["CookieName"]).AddCooki
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<INewProjectRepository, NewProjectRepository>();
 
+//SERVICES
+builder.Services.AddScoped<IBinanceService, BinanceService>();
+builder.Services.AddHttpClient<IBinanceService, BinanceService>();
 
 var app = builder.Build();
 
