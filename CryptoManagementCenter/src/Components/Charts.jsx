@@ -21,7 +21,6 @@ export const Charts = () => {
             }
             return response.json()
         }).then(data => {
-            console.log(data)
             data.forEach((item) => {
                 item.closingTime = formatDateToDateAndTime(item.closingTime);
             })
@@ -31,7 +30,10 @@ export const Charts = () => {
         })
 
     }, [symbol, timeRange]);
-    console.log(symbol)
+
+    console.log(lineChart[lineChart.length - 1]?.price)
+
+
     return (
         <div className="line-chart">
             <div className="row px-5">
@@ -90,6 +92,9 @@ export const Charts = () => {
                 <Legend />
                 <Line type="monotone" dataKey="price" stroke="#ff7300" />
             </LineChart>
+            <div className="text-center">
+                <h3>Current price: ${lineChart[lineChart.length - 1]?.price}</h3>
+            </div>
         </div>
     );
 }
