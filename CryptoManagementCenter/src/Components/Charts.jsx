@@ -17,7 +17,7 @@ export const Charts = () => {
             method: 'GET'
         }).then(response => {
             if (!response.ok) {
-                throw new Error('Cant fetch data from binance');
+                throw new Error("Can't fetch data from binance");
             }
             return response.json()
         }).then(data => {
@@ -31,7 +31,20 @@ export const Charts = () => {
 
     }, [symbol, timeRange]);
 
-
+    useEffect(() => {
+        fetch(`api/crypto/trades?symbol=${symbol}`, {
+            method:'get'
+        }).then((response) => {
+            if (!response.ok) {
+                throw new Error("Can't")
+            }
+            return response.json();
+        }).then((data) => {
+            console.log(data)
+        }).catch(error => {
+            console.log(error);
+        })
+    },[])
 
     return (
         <div className="line-chart">

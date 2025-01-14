@@ -38,7 +38,7 @@ namespace CryptoManagementCenter.Controllers
         }
 
         [HttpGet("trades")]
-        public async Task<IActionResult> GetTradesData(string symbol)
+        public async Task<IActionResult> GetTradesData([FromQuery] string symbol)
         {
             if (string.IsNullOrEmpty(symbol))
             {
@@ -49,7 +49,7 @@ namespace CryptoManagementCenter.Controllers
 
             if (recentTrades == null)
             {
-             return NoContent()   
+                return NoContent();
             }
 
             return Ok(recentTrades);
