@@ -31,7 +31,6 @@ export const Charts = () => {
 
     }, [symbol, timeRange]);
 
-    console.log(lineChart[lineChart.length - 1]?.price)
 
 
     return (

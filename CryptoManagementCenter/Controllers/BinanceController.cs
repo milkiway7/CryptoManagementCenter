@@ -1,11 +1,12 @@
-﻿using BusinessLogic.Services;
+﻿using BusinessLogic.Models;
+using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoManagementCenter.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/crypto")]
     public class BinanceController : Controller
@@ -34,6 +35,24 @@ namespace CryptoManagementCenter.Controllers
             }
 
             return Ok(data);
+        }
+
+        [HttpGet("trades")]
+        public async Task<IActionResult> GetTradesData(string symbol)
+        {
+            if (string.IsNullOrEmpty(symbol))
+            {
+                return BadRequest("Invalid symbol"); 
+            }
+
+            List<RecentTradeModel> recentTrades = await _binanceService.GetRecentTradesAsync(symbol);
+
+            if (recentTrades == null)
+            {
+             return NoContent()   
+            }
+
+            return Ok(recentTrades);
         }
     }
 }

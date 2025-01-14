@@ -21,6 +21,11 @@ namespace BusinessLogic.Services
 
         public async Task<List<LineChartPoint>> GetLineChartPointsAsync(string symbol, string interval, long? startTime)
         {
+            if (string.IsNullOrEmpty(symbol))
+            {
+                throw new ArgumentNullException(nameof(symbol));
+            }
+
             string url = $"https://api.binance.com/api/v3/klines?symbol={symbol}&interval={interval}";
 
             if (startTime.HasValue)
@@ -49,6 +54,22 @@ namespace BusinessLogic.Services
             }
 
             return lineChartData;
+        }
+
+        public async Task<List<RecentTradeModel>> GetRecentTradesAsync(string symbol)
+        {
+            if(string.IsNullOrEmpty(symbol)) { throw new ArgumentNullException(nameof(symbol)); }
+
+            string url = $"https://api.binance.com/api/v3/trades?symbol={symbol}USDT&limit=10";
+
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+
+            List<RecentTradeModel> recentTrades = JsonSerializer.Deserialize<List<RecentTradeModel>>(jsonResponse);
+
+            return recentTrades ?? new List<RecentTradeModel>();
         }
     }
 }
