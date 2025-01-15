@@ -19,5 +19,6 @@ namespace BusinessLogic.Models
         public string? QuoteQty { get; set; }
         [JsonPropertyName("time")]
         public long Time { get; set; }
+        public DateTime? TradeDate { get; set; }
     }
 }

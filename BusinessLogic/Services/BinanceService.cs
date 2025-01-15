@@ -69,6 +69,11 @@ namespace BusinessLogic.Services
 
             List<RecentTradeModel> recentTrades = JsonSerializer.Deserialize<List<RecentTradeModel>>(jsonResponse);
 
+            foreach(RecentTradeModel recerecentTrade in recentTrades)
+            {
+                recerecentTrade.TradeDate = DateTimeOffset.FromUnixTimeMilliseconds(recerecentTrade.Time).LocalDateTime;
+            }
+
             return recentTrades ?? new List<RecentTradeModel>();
         }
     }

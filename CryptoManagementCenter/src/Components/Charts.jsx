@@ -8,6 +8,7 @@ export const Charts = () => {
     const [lineChart, setLineChart] = useState([]);
     const [symbol, setSymbol] = useState(chartConstants.currencySymbol[0]);
     const [timeRange, setTimeRange] = useState(chartConstants.timeRange[0]);
+    const [recentTrades, setRecentTrades] = useState([]);
 
     useEffect(() => {
         let interval = mapTimeRangeToInterval(timeRange)
@@ -41,10 +42,11 @@ export const Charts = () => {
             return response.json();
         }).then((data) => {
             console.log(data)
+            setRecentTrades(data);
         }).catch(error => {
             console.log(error);
         })
-    },[])
+    }, [symbol])
 
     return (
         <div className="line-chart">
@@ -71,7 +73,7 @@ export const Charts = () => {
                 </div>
             </div>
             <div className="text-center mt-5">
-                <h3>{ symbol }/USD</h3>
+                <h3>{symbol}/USD Current price: ${lineChart[lineChart.length - 1]?.price}</h3>
             </div>
             <LineChart width={1200} height={400} data={lineChart}>
                 <CartesianGrid stroke="#f5f5f5" />
@@ -105,7 +107,29 @@ export const Charts = () => {
                 <Line type="monotone" dataKey="price" stroke="#ff7300" />
             </LineChart>
             <div className="text-center">
-                <h3>Current price: ${lineChart[lineChart.length - 1]?.price}</h3>
+                <h5>Recent trades</h5>
+            </div>
+            <div className="table recent-trades">
+                <table>
+                    <thead>
+                        <th>Price(USD)</th>
+                        <th>Quantity({symbol})</th>
+                        <th>Total price</th>
+                        <th>Date</th>
+                    </thead>
+                    <tbody>
+                        {recentTrades.map(row => {
+                            return (
+                                <tr>
+                                    <td>{row.price}</td>
+                                    <td>{row.qty}</td>
+                                    <td>{row.quoteQty}</td>
+                                    <td>{formatDateToDateAndTime(row.tradeDate)}</td>
+                                </tr>
+                            )
+                        }) }
+                    </tbody>
+                </table>
             </div>
         </div>
     );
