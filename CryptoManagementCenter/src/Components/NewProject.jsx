@@ -19,6 +19,9 @@ export const NewProject = () => {
         investmentType: "",
         investmentStrategy: null
     })
+    const [validation, setValidation] = useState({});
+    const [activeTab, setActiveTab] = useState('form');
+    const isReadOnly = formData.status == newProjectConstants.statuses.rejected || formData.status == newProjectConstants.statuses.closed
 
     useEffect(() => {
         const newProjectElement = document.getElementById('newProject');
@@ -27,10 +30,8 @@ export const NewProject = () => {
             const parsedData = convertKeysToLowerCase(JSON.parse(JSON.parse(projectData)))
             setFormData(parsedData)
         }
-    },[])
+    }, [])
 
-    const [validation, setValidation] = useState({});
-    const isReadOnly = formData.status == newProjectConstants.statuses.rejected || formData.status == newProjectConstants.statuses.closed
     function handleFormData(e) {
         const { name, value } = e.target;
 
@@ -39,7 +40,6 @@ export const NewProject = () => {
             [name]: value
         }))
     }
-
     function handleValidation() {
         const fieldsToValidate = newProjectConstants.requiredFields;
         const validationErrors = validateFields(formData, fieldsToValidate);
@@ -48,7 +48,6 @@ export const NewProject = () => {
 
         return validationErrors;
     }
-
     function handleSubmit(e) {
         e.preventDefault();
 
@@ -75,15 +74,38 @@ export const NewProject = () => {
 
         }
     }
-
+    function handleTabChange(tab) {
+        setActiveTab(tab)
+    }
     return (
-        <form method="post" onSubmit={handleSubmit}>
-            {formData.status != newProjectConstants.statuses.empty && <SystemInformation formData={formData} handleFormData={handleFormData} />}
-            <BasicInformation formData={formData} handleFormData={handleFormData} validation={validation} isReadOnly={isReadOnly } />
-            <InvestmentDetails formData={formData} handleFormData={handleFormData} validation={validation} isReadOnly={isReadOnly} />
-            <InvestmentStrategy formData={formData} handleFormData={handleFormData} validation={validation} isReadOnly={isReadOnly} />
-            <ButtonsSection status={formData.status} validation={validation} />
-        </form>
+        <div>
+            <div className="tabs">
+                <button onClick={() => handleTabChange('form')} className={`tab-button ${activeTab === 'form' ? 'active' : ''}`}>
+                    Form
+                </button>
+                <button onClick={() => handleTabChange('charts')} className={`tab-button ${activeTab === 'charts' ? 'active' : ''}`}>
+                    Charts
+                </button>
+            </div>
+
+            {activeTab === 'form' && (
+                <form method="post" onSubmit={handleSubmit}>
+                    {formData.status != newProjectConstants.statuses.empty && <SystemInformation formData={formData} handleFormData={handleFormData} />}
+                    <BasicInformation formData={formData} handleFormData={handleFormData} validation={validation} isReadOnly={isReadOnly} />
+                    <InvestmentDetails formData={formData} handleFormData={handleFormData} validation={validation} isReadOnly={isReadOnly} />
+                    <InvestmentStrategy formData={formData} handleFormData={handleFormData} validation={validation} isReadOnly={isReadOnly} />
+                    <ButtonsSection status={formData.status} validation={validation} />
+                </form>
+            )}
+
+            {activeTab === 'charts' && (
+                <div>
+                    <h1>CHARTS</h1>
+                </div>
+            )}
+
+        </div>
+
     )
 }
 
