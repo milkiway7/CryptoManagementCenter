@@ -10,5 +10,6 @@ namespace BusinessLogic.Services.Interfaces
     public interface IBinanceService
     {
         Task<List<LineChartPoint>> GetLineChartPointsAsync(string symbol, string interval, long? startTime);
+        Task<List<RecentTradeModel>> GetRecentTradesAsync(string symbol);
     }
 }

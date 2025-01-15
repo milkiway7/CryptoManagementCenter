@@ -193,8 +193,16 @@ td {
 /*LINE CHART*/
 .line-chart{
     overflow-x:hidden;
+    overflow-y:hidden;
 }
 .recharts-wrapper {
     padding-top: 40px;
+    margin: auto;
+}
+
+.recent-trades{
+    width: 70%;
+    height: 200px;
+    overflow-x:hidden;
     margin: auto;
 }

@@ -8,6 +8,7 @@ export const Charts = () => {
     const [lineChart, setLineChart] = useState([]);
     const [symbol, setSymbol] = useState(chartConstants.currencySymbol[0]);
     const [timeRange, setTimeRange] = useState(chartConstants.timeRange[0]);
+    const [recentTrades, setRecentTrades] = useState([]);
 
     useEffect(() => {
         let interval = mapTimeRangeToInterval(timeRange)
@@ -17,11 +18,10 @@ export const Charts = () => {
             method: 'GET'
         }).then(response => {
             if (!response.ok) {
-                throw new Error('Cant fetch data from binance');
+                throw new Error("Can't fetch data from binance");
             }
             return response.json()
         }).then(data => {
-            console.log(data)
             data.forEach((item) => {
                 item.closingTime = formatDateToDateAndTime(item.closingTime);
             })
@@ -31,7 +31,23 @@ export const Charts = () => {
         })
 
     }, [symbol, timeRange]);
-    console.log(symbol)
+
+    useEffect(() => {
+        fetch(`api/crypto/trades?symbol=${symbol}`, {
+            method:'get'
+        }).then((response) => {
+            if (!response.ok) {
+                throw new Error("Can't")
+            }
+            return response.json();
+        }).then((data) => {
+            console.log(data)
+            setRecentTrades(data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }, [symbol])
+
     return (
         <div className="line-chart">
             <div className="row px-5">
@@ -57,7 +73,7 @@ export const Charts = () => {
                 </div>
             </div>
             <div className="text-center mt-5">
-                <h3>{ symbol }/USD</h3>
+                <h3>{symbol}/USD Current price: ${lineChart[lineChart.length - 1]?.price}</h3>
             </div>
             <LineChart width={1200} height={400} data={lineChart}>
                 <CartesianGrid stroke="#f5f5f5" />
@@ -90,6 +106,31 @@ export const Charts = () => {
                 <Legend />
                 <Line type="monotone" dataKey="price" stroke="#ff7300" />
             </LineChart>
+            <div className="text-center">
+                <h5>Recent trades</h5>
+            </div>
+            <div className="table recent-trades">
+                <table>
+                    <thead>
+                        <th>Price(USD)</th>
+                        <th>Quantity({symbol})</th>
+                        <th>Total price</th>
+                        <th>Date</th>
+                    </thead>
+                    <tbody>
+                        {recentTrades.map(row => {
+                            return (
+                                <tr>
+                                    <td>{row.price}</td>
+                                    <td>{row.qty}</td>
+                                    <td>{row.quoteQty}</td>
+                                    <td>{formatDateToDateAndTime(row.tradeDate)}</td>
+                                </tr>
+                            )
+                        }) }
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
