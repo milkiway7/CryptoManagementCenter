@@ -206,3 +206,19 @@ td {
     overflow-x:hidden;
     margin: auto;
 }
+
+/*TABS*/
+.tabs {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    margin: 10px 32px 10px 32px;
+    /*padding: 15px 15px 15px 15px;*/
+}
+
+
+.button-style.active {
+    background-color: #212529;
+    color: white;
+    border-color: #007bff;
+}
