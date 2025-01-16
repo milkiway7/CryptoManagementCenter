@@ -1,7 +1,8 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { newProjectConstants } from '../Constants/newProjectConstants';
-import { processForm, addNewProjectPOST, updateNewProjectPATCH } from "../Helpers/NewProjectHelpers";
+import { processForm, addNewProjectPOST, updateNewProjectPATCH, mapCurrencyToSymbol } from "../Helpers/NewProjectHelpers";
 import { validateFields, convertKeysToLowerCase } from "../Helpers/GenericHelpers";
+import { TabChart } from "./Tabs";
 
 export const NewProject = () => {
     const [formData, setFormData] = useState({
@@ -21,6 +22,7 @@ export const NewProject = () => {
     })
     const [validation, setValidation] = useState({});
     const [activeTab, setActiveTab] = useState('form');
+    const [symbol, setSymbol] = useState("");
     const isReadOnly = formData.status == newProjectConstants.statuses.rejected || formData.status == newProjectConstants.statuses.closed
 
     useEffect(() => {
@@ -31,6 +33,11 @@ export const NewProject = () => {
             setFormData(parsedData)
         }
     }, [])
+
+    useEffect(() => {
+        setSymbol(mapCurrencyToSymbol(formData.cryptocurrency));
+        //console.log(symbol)
+    }, [formData.cryptocurrency])
 
     function handleFormData(e) {
         const { name, value } = e.target;
@@ -79,14 +86,17 @@ export const NewProject = () => {
     }
     return (
         <div>
-            <div className="tabs">
-                <button onClick={() => handleTabChange('form')} className={`tab-button ${activeTab === 'form' ? 'active' : ''}`}>
-                    Form
-                </button>
-                <button onClick={() => handleTabChange('charts')} className={`tab-button ${activeTab === 'charts' ? 'active' : ''}`}>
-                    Charts
-                </button>
-            </div>
+            {formData.status !== newProjectConstants.statuses.empty && 
+                <div className="tabs">
+                    <button onClick={() => handleTabChange('form')} className={`button-style ${activeTab === 'form' ? 'active' : ''}`}>
+                        Form
+                    </button>
+                    <button onClick={() => handleTabChange('charts')} className={`button-style ${activeTab === 'charts' ? 'active' : ''}`}>
+                        Charts
+                    </button>
+                </div>    
+            }
+
 
             {activeTab === 'form' && (
                 <form method="post" onSubmit={handleSubmit}>
@@ -99,9 +109,7 @@ export const NewProject = () => {
             )}
 
             {activeTab === 'charts' && (
-                <div>
-                    <h1>CHARTS</h1>
-                </div>
+                <TabChart symbol={ symbol } />
             )}
 
         </div>

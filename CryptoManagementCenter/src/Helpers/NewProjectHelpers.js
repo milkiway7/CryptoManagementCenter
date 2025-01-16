@@ -56,3 +56,38 @@ export function updateNewProjectPATCH(formData) {
         console.log(`Error: ${error}`)
     })
 }
+
+export function mapCurrencyToSymbol(currency) {
+    switch(currency){
+        case "Bitcoin (BTC)":
+            return "BTC";
+            break;
+        case "Ethereum (ETH)":
+            return "ETH";
+            break;
+        case "Binance Coin (BNB)":
+            return "BNB";
+            break;
+        case "Ripple (XRP)":
+            return "XRP";
+            break;
+        case "Cardano (ADA)":
+            return "ADA";
+            break;
+        case "Solana (SOL)":
+            return "SOL";
+            break;
+        case "USD Coin (USDC)":
+            return "USDC";
+            break;
+        case "Dogecoin (DOGE)":
+            return "DOGE";
+            break;
+        case "Polkadot (DOT)":
+            return "DOT";
+            break;
+        case "Litecoin (LTC)":
+            return "LTC";
+            break;
+    }
+}
