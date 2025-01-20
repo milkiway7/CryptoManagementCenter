@@ -25,6 +25,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<INewProjectRepository, NewProjectRepository>();
 
 //SERVICES
+builder.Services.AddSingleton<IWebSocketService, CandleWebSocketService>();
 builder.Services.AddScoped<IBinanceService, BinanceService>();
 builder.Services.AddHttpClient<IBinanceService, BinanceService>();
 
