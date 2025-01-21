@@ -78,6 +78,9 @@ namespace BusinessLogic.Services
 
                     await ConnectToWebSocket(wsUrl); // Połączenie z WebSocket
                 }
+
+                // Opcjonalna pauza, aby uniknąć nadmiernego obciążenia
+                await Task.Delay(1000, _cancellationTokenSource.Token);
             }
         }
     }

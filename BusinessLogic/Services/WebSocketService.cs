@@ -14,17 +14,16 @@ namespace BusinessLogic.Services
     {
         protected readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private const int MaxReconnectAttempts = 5;
+        private Task _backgroundTask;
 
         protected WebSocketService()
         {}
 
         // Rozpoczęcie połączenia
-        public async Task StartAsync(CancellationToken cancellationToken)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            while (!_cancellationTokenSource.Token.IsCancellationRequested)
-            {
-                await StartConnectionLoop();
-            }
+            _backgroundTask = Task.Run(async () => await StartConnectionLoop(), cancellationToken);
+            return Task.CompletedTask; // Nie blokujemy aplikacji
         }
 
         // Metoda abstrakcyjna do połączenia, implementowana w klasach dziedziczących
@@ -94,8 +93,20 @@ namespace BusinessLogic.Services
         public async Task StopAsync(CancellationToken cancellationToken)
         {
             _cancellationTokenSource.Cancel();
+
+            if (_backgroundTask != null)
+            {
+                try
+                {
+                    await _backgroundTask; // Czekamy na zakończenie WebSocket
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Błąd podczas zatrzymywania WebSocket: {ex.Message}");
+                }
+            }
+
             Console.WriteLine("WebSocket został zatrzymany.");
-            await Task.CompletedTask;
         }
     }
 }
