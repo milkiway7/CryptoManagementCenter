@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Services.Interfaces;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.Services
 {
-    public abstract class WebSocketService : IWebSocketService
+    public abstract class WebSocketService : IWebSocketService, IHostedService
     {
         protected readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private const int MaxReconnectAttempts = 5;
@@ -18,7 +19,7 @@ namespace BusinessLogic.Services
         {}
 
         // Rozpoczęcie połączenia
-        public async Task StartAsync()
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             while (!_cancellationTokenSource.Token.IsCancellationRequested)
             {
@@ -90,10 +91,11 @@ namespace BusinessLogic.Services
         public abstract Task ProcessMessage(string message);
 
         // Zatrzymanie połączenia
-        public void Stop()
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
             _cancellationTokenSource.Cancel();
             Console.WriteLine("WebSocket został zatrzymany.");
+            await Task.CompletedTask;
         }
     }
 }

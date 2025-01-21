@@ -1,6 +1,10 @@
 ﻿using DataAccess.Models;
+using DataAccess.Repositories;
+using DataAccess.Repositories.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -12,46 +16,52 @@ namespace BusinessLogic.Services
     {
         private readonly string[] _symbols = { "btcusdt", "ethusdt", "xrpusdt", "solusdt" };
         private readonly string[] _intervals = { "1m", "5m", "15m", "1h" };
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public CandleWebSocketService()
+        public CandleWebSocketService(IServiceScopeFactory serviceScopeFactory)
         {
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
-        public override Task ProcessMessage(string message)
+        public override async Task ProcessMessage(string message)
         {
-            try
+            using (IServiceScope scope = _serviceScopeFactory.CreateScope())
             {
-                var json = JsonDocument.Parse(message);
+                var candleRepository = scope.ServiceProvider.GetRequiredService<ICandleRepository>();
 
-                // Binance w combined streams zwraca dane w strukturze, gdzie nazwa strumienia jest w "stream"
-                var stream = json.RootElement.GetProperty("stream").GetString();
-                var kline = json.RootElement.GetProperty("data").GetProperty("k");
-
-                var symbol = stream.Split('@')[0].ToUpper(); // Wyciągamy symbol z nazwy strumienia
-                var interval = stream.Split('@')[1].Split('_')[1]; // Wyciągamy interwał z nazwy strumienia
-
-                var candle = new CandleModel
+                try
                 {
-                    Symbol = symbol,
-                    Interval = interval, // Przechowujemy interwał
-                    OpenTime = kline.GetProperty("t").GetInt64(),  // Przechowujemy jako long
-                    Open = kline.GetProperty("o").GetDecimal(),
-                    High = kline.GetProperty("h").GetDecimal(),
-                    Low = kline.GetProperty("l").GetDecimal(),
-                    Close = kline.GetProperty("c").GetDecimal(),
-                    Volume = kline.GetProperty("v").GetDecimal()
-                };
-                // Zapisanie świecy do odpowiedniego repozytorium
-                await _candleRepository.AddCandleAsync(candle);
-                
-                Console.WriteLine($"Zapisano świecę dla {symbol} {interval}: {candle.OpenTime} | Open: {candle.Open}, Close: {candle.Close}");
+                    var json = JsonDocument.Parse(message);
 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Błąd przetwarzania danych: {ex.Message}");
-            }
+                    // Binance w combined streams zwraca dane w strukturze, gdzie nazwa strumienia jest w "stream"
+                    var stream = json.RootElement.GetProperty("stream").GetString();
+                    var kline = json.RootElement.GetProperty("data").GetProperty("k");
 
+                    var symbol = stream.Split('@')[0].ToUpper(); // Wyciągamy symbol z nazwy strumienia
+                    var interval = stream.Split('@')[1].Split('_')[1]; // Wyciągamy interwał z nazwy strumienia
+
+                    var candle = new CandleModel
+                    {
+                        Symbol = symbol,
+                        Interval = interval, // Przechowujemy interwał
+                        OpenTime = long.Parse(kline.GetProperty("t").ToString()),  // Przechowujemy jako long
+                        Open = decimal.Parse(kline.GetProperty("o").GetString(), CultureInfo.InvariantCulture),
+                        High = decimal.Parse(kline.GetProperty("h").GetString(), CultureInfo.InvariantCulture),
+                        Low = decimal.Parse(kline.GetProperty("l").GetString(), CultureInfo.InvariantCulture),
+                        Close = decimal.Parse(kline.GetProperty("c").GetString(), CultureInfo.InvariantCulture),
+                        Volume = decimal.Parse(kline.GetProperty("v").GetString(), CultureInfo.InvariantCulture)
+                    };
+                    // Zapisanie świecy do odpowiedniego repozytorium
+                    await candleRepository.AddCandleAsync(candle);
+
+                    Console.WriteLine($"Zapisano świecę dla {symbol} {interval}: {candle.OpenTime} | Open: {candle.Open}, Close: {candle.Close}");
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Błąd przetwarzania danych: {ex.Message}");
+                }
+            }
         }
 
         protected override async Task StartConnectionLoop()

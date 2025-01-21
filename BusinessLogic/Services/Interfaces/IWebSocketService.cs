@@ -8,8 +8,8 @@ namespace BusinessLogic.Services.Interfaces
 {
     public interface IWebSocketService
     {
-        Task StartAsync();
-        void Stop();
+        Task StartAsync(CancellationToken cancellationToken);
+        Task StopAsync(CancellationToken cancellationToken);
         Task ProcessMessage(string message);
     }
 }
