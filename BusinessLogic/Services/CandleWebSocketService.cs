@@ -33,25 +33,31 @@ namespace BusinessLogic.Services
                 {
                     var json = JsonDocument.Parse(message);
 
-                    // Binance w combined streams zwraca dane w strukturze, gdzie nazwa strumienia jest w "stream"
                     var stream = json.RootElement.GetProperty("stream").GetString();
                     var kline = json.RootElement.GetProperty("data").GetProperty("k");
 
-                    var symbol = stream.Split('@')[0].ToUpper(); // Wyciągamy symbol z nazwy strumienia
-                    var interval = stream.Split('@')[1].Split('_')[1]; // Wyciągamy interwał z nazwy strumienia
+                    var symbol = stream.Split('@')[0].ToUpper(); 
+                    var interval = stream.Split('@')[1].Split('_')[1]; 
+
+                    var isCandleClosed = kline.GetProperty("x").GetBoolean();
+
+                    if(!isCandleClosed)
+                    {
+                        return;
+                    }
 
                     var candle = new CandleModel
                     {
                         Symbol = symbol,
-                        Interval = interval, // Przechowujemy interwał
-                        OpenTime = long.Parse(kline.GetProperty("t").ToString()),  // Przechowujemy jako long
+                        Interval = interval, 
+                        OpenTime = long.Parse(kline.GetProperty("t").ToString()),  
                         Open = decimal.Parse(kline.GetProperty("o").GetString(), CultureInfo.InvariantCulture),
                         High = decimal.Parse(kline.GetProperty("h").GetString(), CultureInfo.InvariantCulture),
                         Low = decimal.Parse(kline.GetProperty("l").GetString(), CultureInfo.InvariantCulture),
                         Close = decimal.Parse(kline.GetProperty("c").GetString(), CultureInfo.InvariantCulture),
                         Volume = decimal.Parse(kline.GetProperty("v").GetString(), CultureInfo.InvariantCulture)
                     };
-                    // Zapisanie świecy do odpowiedniego repozytorium
+
                     await candleRepository.AddCandleAsync(candle);
 
                     Console.WriteLine($"Zapisano świecę dla {symbol} {interval}: {candle.OpenTime} | Open: {candle.Open}, Close: {candle.Close}");
@@ -79,7 +85,6 @@ namespace BusinessLogic.Services
                     await ConnectToWebSocket(wsUrl); // Połączenie z WebSocket
                 }
 
-                // Opcjonalna pauza, aby uniknąć nadmiernego obciążenia
                 await Task.Delay(1000, _cancellationTokenSource.Token);
             }
         }

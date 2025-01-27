@@ -22,6 +22,7 @@ namespace BusinessLogic.Services
         // Rozpoczęcie połączenia
         public Task StartAsync(CancellationToken cancellationToken)
         {
+            //Tutaj wykorzystuję Task.Run dzięki któremu mogę uruchomić metodę asynchroniczną w tle, tak aby nie blokować głównego wątku aplikacji
             _backgroundTask = Task.Run(async () => await StartConnectionLoop(), cancellationToken);
             return Task.CompletedTask; // Nie blokujemy aplikacji
         }
