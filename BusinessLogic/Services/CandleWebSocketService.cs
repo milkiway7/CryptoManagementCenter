@@ -32,13 +32,10 @@ namespace BusinessLogic.Services
                 try
                 {
                     var json = JsonDocument.Parse(message);
-
                     var stream = json.RootElement.GetProperty("stream").GetString();
                     var kline = json.RootElement.GetProperty("data").GetProperty("k");
-
                     var symbol = stream.Split('@')[0].ToUpper(); 
                     var interval = stream.Split('@')[1].Split('_')[1]; 
-
                     var isCandleClosed = kline.GetProperty("x").GetBoolean();
 
                     if(!isCandleClosed)
@@ -72,21 +69,33 @@ namespace BusinessLogic.Services
 
         protected override async Task StartConnectionLoop()
         {
-            while (!_cancellationTokenSource.Token.IsCancellationRequested)
+            var tasks = _symbols.Select(symbol => Task.Run(async () =>
             {
-                foreach (var symbol in _symbols)
+                while (!_cancellationTokenSource.Token.IsCancellationRequested)
                 {
-                    // Generowanie URL łączącego wszystkie interesujące interwały
-                    var streamNames = _intervals.Select(interval => $"{symbol}@kline_{interval}").ToArray();
-                    var combinedStreams = string.Join("/", streamNames);
+                    try
+                    {
+                        var streamNames = _intervals.Select(interval => $"{symbol}@kline_{interval}").ToArray();
+                        var combinedStreams = string.Join("/", streamNames);
+                        var wsUrl = $"wss://stream.binance.com:9443/stream?streams={combinedStreams}";
 
-                    var wsUrl = $"wss://stream.binance.com:9443/stream?streams={combinedStreams}";
+                        Console.WriteLine($"Uruchamianie WebSocket dla {symbol}");
+                        await ConnectToWebSocket(wsUrl);
 
-                    await ConnectToWebSocket(wsUrl); // Połączenie z WebSocket
+                        Console.WriteLine($"WebSocket dla {symbol} został zamknięty. Restart...");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Błąd WebSocket dla {symbol}: {ex.Message}");
+                    }
+
+                    // Jeśli WebSocket się zamknie, czekamy kilka sekund przed ponownym połączeniem, żeby nie spamować Binance
+                    await Task.Delay(2000);
                 }
+            }, _cancellationTokenSource.Token)).ToList();
 
-                await Task.Delay(1000, _cancellationTokenSource.Token);
-            }
+            // Czekamy na wszystkie WebSockety
+            await Task.WhenAll(tasks);
         }
     }
 }
