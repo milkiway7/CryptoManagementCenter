@@ -24,9 +24,15 @@ builder.Services.AddAuthentication(builder.Configuration["CookieName"]).AddCooki
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<INewProjectRepository, NewProjectRepository>();
 builder.Services.AddScoped<ICandleRepository, CandleRepository>();
+builder.Services.AddScoped<IMarketDepthRepository, MarketDepthRepository>();
+
 //SERVICES
 builder.Services.AddSingleton<IWebSocketService, CandleWebSocketService>();
 builder.Services.AddHostedService<CandleWebSocketService>();
+
+builder.Services.AddSingleton<IWebSocketService, MarketDepthService>();
+builder.Services.AddHostedService<MarketDepthService>();
+
 builder.Services.AddScoped<IBinanceService, BinanceService>();
 builder.Services.AddHttpClient<IBinanceService, BinanceService>();
 
