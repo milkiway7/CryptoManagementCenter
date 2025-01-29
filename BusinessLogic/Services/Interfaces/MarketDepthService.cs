@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,11 @@ namespace BusinessLogic.Services.Interfaces
     public class MarketDepthService : WebSocketService
     {
         private readonly string[] _symbols = { "btcusdt", "ethusdt", "xrpusdt", "solusdt" };
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public MarketDepthService()
+        public MarketDepthService(IServiceScopeFactory serviceScopeFactory)
         {
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         protected override async Task StartConnectionLoop()
