@@ -86,7 +86,7 @@ namespace BusinessLogic.Services
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Błąd WebSocket dla {symbol}: {ex.Message}");
+                        Console.WriteLine($"Błąd WebSocket dla candles {symbol}: {ex.Message}");
                     }
 
                     // Jeśli WebSocket się zamknie, czekamy kilka sekund przed ponownym połączeniem, żeby nie spamować Binance
