@@ -34,7 +34,7 @@ namespace BusinessLogic.Services
                     var json = JsonDocument.Parse(message);
                     var stream = json.RootElement.GetProperty("stream").GetString();
                     var kline = json.RootElement.GetProperty("data").GetProperty("k");
-                    var symbol = stream.Split('@')[0].ToUpper(); 
+                    var symbol = stream.Substring(0,3).ToUpper(); 
                     var interval = stream.Split('@')[1].Split('_')[1]; 
                     var isCandleClosed = kline.GetProperty("x").GetBoolean();
 
