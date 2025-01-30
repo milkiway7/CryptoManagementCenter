@@ -27,6 +27,9 @@ builder.Services.AddScoped<ICandleRepository, CandleRepository>();
 builder.Services.AddScoped<IMarketDepthRepository, MarketDepthRepository>();
 
 //SERVICES
+builder.Services.AddSingleton<IWebSocketService, RecentTradesService>();
+builder.Services.AddHostedService<RecentTradesService>();
+
 builder.Services.AddSingleton<IWebSocketService, CandleWebSocketService>();
 builder.Services.AddHostedService<CandleWebSocketService>();
 
