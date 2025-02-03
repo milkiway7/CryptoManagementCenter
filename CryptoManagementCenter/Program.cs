@@ -25,6 +25,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<INewProjectRepository, NewProjectRepository>();
 builder.Services.AddScoped<ICandleRepository, CandleRepository>();
 builder.Services.AddScoped<IMarketDepthRepository, MarketDepthRepository>();
+builder.Services.AddScoped<IRecentTradesRepository, RecentTradesRepository>();
 
 //SERVICES
 builder.Services.AddSingleton<IWebSocketService, RecentTradesService>();
