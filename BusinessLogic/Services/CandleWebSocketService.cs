@@ -1,4 +1,5 @@
-﻿using DataAccess.Models;
+﻿using BusinessLogic.Constants;
+using DataAccess.Models;
 using DataAccess.Repositories;
 using DataAccess.Repositories.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +15,7 @@ namespace BusinessLogic.Services
 {
     public class CandleWebSocketService : WebSocketService
     {
-        private readonly string[] _symbols = { "btcusdt", "ethusdt", "xrpusdt", "solusdt" };
+        private readonly string[] _symbols = BinanceConstants.MarketDepth.Symbols;
         private readonly string[] _intervals = { "1m", "5m", "15m", "1h" };
         private readonly IServiceScopeFactory _serviceScopeFactory;
 

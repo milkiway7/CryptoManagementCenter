@@ -16,5 +16,6 @@ namespace DataAccess
         public DbSet<NewProjectModel> NewProjects { get; set; }
         public DbSet<CandleModel> Candles { get; set; }
         public DbSet<MarketDepthModel> MarketDepth { get; set; }
+        public DbSet<RecentTradesModel> RecentTrades { get; set; }
     }
 }
