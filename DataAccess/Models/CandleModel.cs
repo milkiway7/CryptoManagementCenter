@@ -33,5 +33,7 @@ namespace DataAccess.Models
         [Required]
         [Column(TypeName = "decimal(18,8)")]
         public decimal Volume { get; set; }
+        [Required]
+        public long CloseTime { get; set; }
     }
 }

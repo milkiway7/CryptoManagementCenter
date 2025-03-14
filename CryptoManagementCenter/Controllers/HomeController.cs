@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace CryptoManagementCenter.Controllers
 {
@@ -93,7 +95,7 @@ namespace CryptoManagementCenter.Controllers
             {
                 UserModel checkIfExsist = await _userRepository.GetUserByEmail(user.EmailAddress);
 
-                if (checkIfExsist != null) { 
+                if (checkIfExsist != null && checkIfExsist.Password == HashPassword(user.Password)) { 
                     List<Claim> claims = new List<Claim>()
                     {
                         new Claim(ClaimTypes.Name,user.EmailAddress),
@@ -123,6 +125,15 @@ namespace CryptoManagementCenter.Controllers
             await HttpContext.SignOutAsync(_configuration["CookieName"]);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(bytes);
+            }
         }
     }
 }

@@ -36,7 +36,6 @@ namespace DataAccess.Repositories
                 byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
                 return Convert.ToBase64String(bytes);
             }
-
         }
     }
 }

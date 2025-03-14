@@ -33,6 +33,9 @@ namespace DataAccess.Migrations
                     b.Property<decimal>("Close")
                         .HasColumnType("decimal(18,8)");
 
+                    b.Property<long>("CloseTime")
+                        .HasColumnType("bigint");
+
                     b.Property<decimal>("High")
                         .HasColumnType("decimal(18,8)");
 

@@ -16,7 +16,7 @@ namespace BusinessLogic.Services
     public class CandleWebSocketService : WebSocketService
     {
         private readonly string[] _symbols = BinanceConstants.MarketDepth.Symbols;
-        private readonly string[] _intervals = { "1m", "5m", "15m", "1h" };
+        private readonly string[] _intervals = { "1m", "5m", "15m", "1h", "4h", "1d" };
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
         public CandleWebSocketService(IServiceScopeFactory serviceScopeFactory)
@@ -53,7 +53,8 @@ namespace BusinessLogic.Services
                         High = decimal.Parse(kline.GetProperty("h").GetString(), CultureInfo.InvariantCulture),
                         Low = decimal.Parse(kline.GetProperty("l").GetString(), CultureInfo.InvariantCulture),
                         Close = decimal.Parse(kline.GetProperty("c").GetString(), CultureInfo.InvariantCulture),
-                        Volume = decimal.Parse(kline.GetProperty("v").GetString(), CultureInfo.InvariantCulture)
+                        Volume = decimal.Parse(kline.GetProperty("v").GetString(), CultureInfo.InvariantCulture),
+                        CloseTime = long.Parse(kline.GetProperty("T").ToString())
                     };
 
                     await candleRepository.AddCandleAsync(candle);
